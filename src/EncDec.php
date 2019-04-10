@@ -62,18 +62,11 @@ class EncDec
     }
 
     public static function obfus($filename_in = 'test.php', $filename_out = 'test_out.php', $codeName = 'Class/Code NAME'){
-        $filename_in  = realpath($filename_in);
-        $filename_out = realpath($filename_out);
-
 
         $sData = file_get_contents($filename_in);
         $sData = str_replace(array('<?php', '<?', '?>'), '', $sData); // Strip PHP open/close tags
 
         $sObfusationData = new \Obfuscator($sData, $codeName);
-
-        echo '<pre>'.print_r($filename_in, true).'</pre>';
-        echo '<pre>'.print_r($filename_out, true).'</pre>';
-        echo '<pre>'.print_r($sObfusationData, true).'</pre>';
 
         file_put_contents($filename_out, '<?php ' . "\r\n" . $sObfusationData);
     }
