@@ -8,8 +8,12 @@
 	  "issues": "https://github.com/EvilKraft/encdec/issues",
 	  "source": "https://github.com/EvilKraft/encdec"
 	},
+	"autoload": {
+		"psr-4": {"EvilKraft\\encdec\\": "src/"}
+	},
 	"require": {
 		"php": ">=5.6",
+		"ext-openssl": "*",
 		"ph-7/obfuscator" : "dev-master"
 	}
 }
