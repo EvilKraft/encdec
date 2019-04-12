@@ -63,6 +63,10 @@ class EncDec
 
     public static function obfus($filename_in = 'test.php', $filename_out = 'test_out.php', $codeName = 'Class/Code NAME'){
 
+        if(!file_exists($filename_in)){
+            return false;
+        }
+
         $sData = file_get_contents($filename_in);
         $sData = str_replace(array('<?php', '<?', '?>'), '', $sData); // Strip PHP open/close tags
 
