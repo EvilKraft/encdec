@@ -23,16 +23,7 @@ class EncDecMiddleware
     public function __invoke(Request $request, Response $response, callable $next)
     {
         try{
-            if(!file_exists(LICENSE)){
-                throw new \Exception('License has been expired!');
-            }
-
-            $license = \EvilKraft\encdec\EncDec::securedDecrypt(file_get_contents(LICENSE));
-            $license = json_decode($license, true);
-
-            if(!isset($license['expared'])){
-                throw new \Exception('License has been expired!');
-            }
+            $license = EncDecController::getLicenseData();
 
             $dateNow = new \DateTime();
             $dateExp = new \DateTime($license['expared']);
