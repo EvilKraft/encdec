@@ -23,10 +23,10 @@ class EncDecMiddleware
     public function __invoke(Request $request, Response $response, callable $next)
     {
         try{
-            $license = EncDecController::getLicenseData();
+            $data = EncDecController::getData();
 
             $dateNow = new \DateTime();
-            $dateExp = new \DateTime($license['expared']);
+            $dateExp = new \DateTime($data['expared']);
 
             if ($dateNow >= $dateExp) {
                 throw new \Exception('License has been expired!');
