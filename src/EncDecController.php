@@ -55,7 +55,7 @@ class EncDecController
         $data = EncDec::securedDecrypt(file_get_contents(LICENSE));
         $data = json_decode($data, true);
 
-        if(!isset($license['expared'])){
+        if(!isset($data['expared'])){
             throw new \Exception('Wrong file format!');
         }
 
