@@ -13,11 +13,6 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 class EncDecController
 {
-    //Constructor
-    public function __construct(ContainerInterface $ci) {
-
-    }
-
     public function create(Request $request, Response $response, Array $args)
     {
         $queryParams = $request->getQueryParams();
