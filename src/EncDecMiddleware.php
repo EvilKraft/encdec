@@ -8,10 +8,13 @@
 
 namespace EvilKraft\encdec;
 
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Psr7\Response;
 
-class EncDecMiddleware
+class EncDecMiddleware implements MiddlewareInterface
 {
     private $url;
 
@@ -20,21 +23,19 @@ class EncDecMiddleware
         $this->url = $url;
     }
 
-    public function __invoke(Request $request, Response $response, callable $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        try{
-            $data = EncDecController::getData();
+        $data = EncDecController::getData();
 
-            $dateNow = new \DateTime();
-            $dateExp = new \DateTime($data['expared']);
+        $dateNow = new \DateTime();
+        $dateExp = new \DateTime($data['expared']);
 
-            if ($dateNow >= $dateExp) {
-                throw new \Exception('License has been expired!');
-            }
-        }catch (\Exception $e){
-            return $response->withStatus(302)->withHeader('Location', $this->url);
+        if ($dateNow >= $dateExp) {
+            $response = new Response();
+            $response->getBody()->write('License has been expired!');
+            $response->withStatus(302)->withHeader('Location', $this->url);
         }
-
-        return $next($request, $response);
+        
+        return $handler->handle($request);
     }
 }
